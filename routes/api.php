@@ -46,4 +46,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/categorie', [CategorieController::class, 'store']);
     Route::post('/products', [ProductsController::class, 'store']);
     Route::post('/product/categorie',[ProductCategorieController::class,'store']);
+    Route::post('/cart',[CartController::class,'store']);
 });

@@ -59,7 +59,24 @@ class CartController extends Controller
             $cart = new Cart([
                 'user_id' => $request->user_id,
                 'devices_id' => $request->devices_id,
+                'product_id' => $request->product_id,
+                'store_id' => $request->store_id,
+                'vendor_type_id' => $request->vendor_type_id,
+                'product_count' => $request->product_count,
             ]);
+
+            if(!$cart){
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Store not found',
+                ], 400);
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Products list By store',
+                'data' => $cart,
+            ], 200);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
