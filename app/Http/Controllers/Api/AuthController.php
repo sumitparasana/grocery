@@ -46,7 +46,8 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone' =>$request->phone,
-                'password' => Hash::make($request->password)
+                'password' => Hash::make($request->password),
+                'role' => 'customer'
             ]);
 
             return response()->json([
@@ -88,7 +89,7 @@ class AuthController extends Controller
             if(!Auth::attempt($request->only(['phone', 'password']))){
                 return response()->json([
                     'status' => false,
-                    'message' => 'Email & Password does not match with our record.',
+                    'message' => 'phone & Password does not match with our record.',
                 ], 401);
             }
 

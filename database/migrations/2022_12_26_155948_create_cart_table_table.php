@@ -13,14 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cart_table', function (Blueprint $table) {
+        Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
             $table->string('devices_id');
-            $table->integer('product_id');
-            $table->integer('store_id');
-            $table->integer('vendor_type_id');
-            $table->integer('product_count');
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Store;
 use App\Models\Tage;
+use App\Models\StoreLike;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\Validator;
@@ -98,7 +99,6 @@ class StoreController extends Controller
                         'store_id' => $store->id,
                     ]);
                 }
-
 
                 return response()->json([
                     'status' => true,
@@ -206,6 +206,15 @@ class StoreController extends Controller
             if($store){
                 $tage = Tage::where('store_id',$store->id)->get();
                 $store->tage = $tage;
+
+                $store_user_like = StoreLike::where('store_id',$store->id)->where('user_id',auth()->user()->id)->first();
+                if($store_user_like){
+                    $store->user_like = $store_user_like->is_like;
+                }else{
+                    $store->user_like = 0;
+                }
+                $store->store_like = StoreLike::getStoreLike($store->id);
+
                 return response()->json([
                     'status' => true,
                     'message' => 'Store Details',
