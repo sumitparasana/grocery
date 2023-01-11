@@ -25,5 +25,6 @@ class Store extends Model
         "delivery_prize",
         "delivery_time",
         "is_prime",
+        "user_id",
     ];
 }

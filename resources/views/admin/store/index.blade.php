@@ -56,7 +56,7 @@
                                             <td>{{$d->delivery_prize}}</td>
                                             <td>{{$d->delivery_time}}</td>
                                             <td>
-                                                <a href="/store/{{$d->id}}/edit"><button type="button" class="btn btn-primary btn-xs">Edit</button></a>
+                                                <a href="/stores/{{$d->id}}/edit"><button type="button" class="btn btn-primary btn-xs">Edit</button></a>
                                             </td>
                                         </tr>
                                     @endforeach

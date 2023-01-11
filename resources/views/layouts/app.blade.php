@@ -89,7 +89,7 @@
                             <li><a href="/users">Users</a></li>
                         @endif
                         <li><a href="/stores">stores</a></li>
-                        <li><a href="/stores/categories">stores categories</a></li>
+                        <li><a href="/store/categories">stores categories</a></li>
                         <li><a href="/product">product</a></li>
                         <li><a href="/product/categories">restaurant add on</a></li>
                         <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">

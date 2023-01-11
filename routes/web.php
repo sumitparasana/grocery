@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StoreCategoriesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,21 +40,15 @@ Route::middleware('auth')->group(function () {
     //store
     Route::resource('stores', StoreController::class);
 
-    // route::get('/stores',function () {
-    //     return view('admin.store.index');
+    // categories
+    Route::resource('/store/categories', StoreCategoriesController::class);
+    // Route::get('/stores/categories',function () {
+    //     return view('admin.categories.store.index');
     // });
 
-    // Route::get('/stores/create',function () {
-    //     return view('admin.store.create');
+    // Route::get('/stores/categories/create',function () {
+    //     return view('admin.categories.store.create');
     // });
-
-    Route::get('/stores/categories',function () {
-        return view('admin.categories.store.index');
-    });
-
-    Route::get('/stores/categories/create',function () {
-        return view('admin.categories.store.create');
-    });
 
     route::get('/product',function () {
         return view('admin.product.index');

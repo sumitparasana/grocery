@@ -6,8 +6,7 @@
         <div class="row page-titles mx-0">
             <div class="col-sm-6 p-md-0">
                 <div class="welcome-text">
-                    <h4>Hi, welcome back!</h4>
-                    <p class="mb-0">categories</p>
+                    <h4>categories</h4>
                 </div>
             </div>
             <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
@@ -22,7 +21,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">categories</h4>
-                        <a href="/stores/categories/create"><button type="button" class="btn btn-primary">create</button></a>
+                        <a href="/store/categories/create"><button type="button" class="btn btn-primary">create</button></a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -36,24 +35,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Garrett Winters</td>
-                                        <td>Accountant</td>
-                                        <td>Tokyo</td>
-                                        <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ashton Cox</td>
-                                        <td>Junior Technical Author</td>
-                                        <td>San Francisco</td>
-                                        <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
-                                    </tr>
+                                    @foreach ($data as $d)
+                                        <tr>
+                                            <td>{{ $d->store_name }}</td>
+                                            <td>{{ $d->store_type }}</td>
+                                            <td>{{ $d->name }}</td>
+                                            <td>
+                                                <a href="/store/categories/{{$d->id}}/edit"><button type="button" class="btn btn-primary btn-xs">Edit</button></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -65,9 +56,6 @@
                                 </tfoot>
                             </table>
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        Card footer
                     </div>
                 </div>
             </div>

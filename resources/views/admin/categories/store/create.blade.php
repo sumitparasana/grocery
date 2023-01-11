@@ -25,35 +25,35 @@
                     </div>
                     <div class="card-body">
                         <div class="basic-form">
-                            <form>
-
+                            <form action="/store/categories" method="POST">
+                                @csrf
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>categorie name</label>
-                                        <input type="text" class="form-control" placeholder="categories">
+                                        <input type="text" class="form-control" name="name" placeholder="categories">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>store</label>
-                                        <select id="inputState" class="form-control">
+                                        <select id="inputState" class="form-control" name="store_id">
                                             <option selected="">Choose...</option>
-                                            <option>store 1</option>
-                                            <option>store 2</option>
-                                            <option>store 3</option>
+                                            @foreach ($data['store'] as $s)
+                                                <option value="{{$s->id}}">{{ $s->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <label>active</label>
-                                        <select id="inputState" class="form-control">
-                                            <option selected="">Choose...</option>
-                                            <option>yes</option>
-                                            <option>no</option>
+                                        <select id="inputState" class="form-control" name="is_active">
+                                            <option>Choose...</option>
+                                            <option value="1">yes</option>
+                                            <option value="0">no</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>in oder</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" name="oder" class="form-control">
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>

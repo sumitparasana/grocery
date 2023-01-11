@@ -25,7 +25,7 @@
                     </div>
                     <div class="card-body">
                         <div class="basic-form">
-                            <form action="/stores" method="POST">
+                            <form action="/stores" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
@@ -41,11 +41,20 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label>image</label>
                                         <input type="file" name="image" class="form-control" placeholder="file">
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
+                                        <label>store type</label>
+                                        <select id="inputState" name="vendor_type_id" class="form-control">
+                                            <option selected="">Choose...</option>
+                                            <option value="1">supar market</option>
+                                            <option value="2">pharmacy</option>
+                                            <option value="3" >restaurant</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
                                         <label>free delivery</label>
                                         <select id="inputState" name="free_delivery" class="form-control">
                                             <option selected="">Choose...</option>
@@ -89,13 +98,13 @@
                                         <label>teg</label>
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <input type="text" name="teg1" id="" class="form-control" placeholder="teg 1">
+                                                <input type="text" name="tage[0]" id="" class="form-control" placeholder="tage 1">
                                             </div>
                                             <div class="col-md-4">
-                                                <input type="text" name="teg2" id="" class="form-control" placeholder="teg 2">
+                                                <input type="text" name="tage[1]" id="" class="form-control" placeholder="tage 2">
                                             </div>
                                             <div class="col-md-4">
-                                                <input type="text" name="teg3" id="" class="form-control" placeholder="teg 3">
+                                                <input type="text" name="tage[2]" id="" class="form-control" placeholder="tage 3">
                                             </div>
                                         </div>
                                     </div>
