@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-use App\Models\User;
-use App\Models\Store;
-
-class StoreController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,12 +18,8 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $store = DB::table('stores as s')
-        ->join('users as u','s.user_id','=','u.id')
-        ->leftJoin('roles as r', 'u.role','=','r.id')
-        ->selectRaw('s.*,u.id as user_id,u.name as user_name,r.name as user_role')
-        ->get();
-        return view('admin.store.index',['data'=>$store]);
+        $data = User::get();
+        return view('admin.user.index',['data'=>$data]);
     }
 
     /**
@@ -35,9 +29,7 @@ class StoreController extends Controller
      */
     public function create()
     {
-        $data['user'] = User::whereIn('role',['2','3','4'])->get();
-
-        return view('admin.store.create',['data'=>$data]);
+        return view('admin.user.create');
     }
 
     /**
@@ -50,18 +42,11 @@ class StoreController extends Controller
     {
         $validateUser = Validator::make($request->all(),
         [
-            'vendor_type_id' => 'required',
             'name' => 'required',
-            'image' => 'required',
-            'description' => 'required',
-            'address' => 'nullable',
-            'zip_code' => 'nullable',
-            'lat' => 'nullable',
-            'log' => 'nullable',
-            'location' => 'nullable',
-            'delivery_prize' => 'required',
-            'delivery_time' => 'required',
-            'tage' => 'required',
+            'phone' => 'required|unique:users',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required',
+            'role' => 'required'
         ]);
 
         if($validateUser->fails()){
@@ -72,25 +57,17 @@ class StoreController extends Controller
             ], 401);
         }
 
-        if(!empty($request->file('image'))){
-            $image_data = Helper::fileUploadApi('upload/store',$request->file('image'));
-        }
-
-
-        $store = Store::create([
+        $user = User::create([
             'name' => $request->name,
-            'vendor_type_id' => $request->vendor_type_id,
-            'image' => $image_data['image_name'],
-            'image_path' => $image_data['url'],
-            'description' => $request->description,
-            'address' => $request->address,
-            'zip_code' => $request->zip_code,
-            'lat' => $request->lat,
-            'log' => $request->log,
-            'location' => $request->location,
-            'delivery_prize' => $request->delivery_prize,
-            'delivery_time' => $request->delivery_time,
+            'email' => $request->email,
+            'phone' =>$request->phone,
+            'password' => Hash::make($request->password),
+            'role' => $request->role
         ]);
+
+        if($user){
+            return redirect('/users');
+        }
     }
 
     /**
@@ -112,7 +89,8 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = User::where('id',$id)->first();
+        return view('admin.user.edit',['data'=>$data]);
     }
 
     /**
@@ -124,7 +102,32 @@ class StoreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validateUser = Validator::make($request->all(),
+        [
+            'name' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
+            'role' => 'required'
+        ]);
+
+        if($validateUser->fails()){
+            return response()->json([
+                'status' => false,
+                'message' => 'validation error',
+                'errors' => $validateUser->errors()
+            ], 401);
+        }
+
+        $user = User::where('id',$id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' =>$request->phone,
+            'role' => $request->role
+        ]);
+
+        if($user){
+            return redirect('/users');
+        }
     }
 
     /**

@@ -38,30 +38,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
-                                        <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Garrett Winters</td>
-                                        <td>Accountant</td>
-                                        <td>Tokyo</td>
-                                        <td>63</td>
-                                        <td>2011/07/25</td>
-                                        <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ashton Cox</td>
-                                        <td>Junior Technical Author</td>
-                                        <td>San Francisco</td>
-                                        <td>66</td>
-                                        <td>2009/01/12</td>
-                                        <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
-                                    </tr>
+                                    @foreach ($data as $d)
+                                        <tr>
+                                            <td>{{$d->name}}</td>
+                                            <td>{{$d->email}}</td>
+                                            <td>{{$d->phone}}</td>
+                                            <td>{{$d->role}}</td>
+                                            <td>{{$d->image}}</td>
+                                            <td><a href="/users/edit/{{$d->id}}"><button type="button" class="btn btn-primary btn-xs">Edit</button></a></td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -75,9 +61,6 @@
                                 </tfoot>
                             </table>
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        Card footer
                     </div>
                 </div>
             </div>

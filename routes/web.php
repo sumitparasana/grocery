@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,21 +29,23 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/users',function () {
-        return view('admin.user.index');
-    });
+    //user
+    Route::get('/users',[UserController::class,'index']);
+    Route::get('/users/create',[UserController::class,'create']);
+    Route::post('/users',[UserController::class,'store']);
+    Route::get('/users/edit/{id}',[UserController::class,'edit']);
+    Route::post('/users/update/{id}',[UserController::class,'update']);
 
-    Route::get('/users/create',function () {
-        return view('admin.user.create');
-    });
+    //store
+    Route::resource('stores', StoreController::class);
 
-    route::get('/stores',function () {
-        return view('admin.store.index');
-    });
+    // route::get('/stores',function () {
+    //     return view('admin.store.index');
+    // });
 
-    Route::get('/stores/create',function () {
-        return view('admin.store.create');
-    });
+    // Route::get('/stores/create',function () {
+    //     return view('admin.store.create');
+    // });
 
     Route::get('/stores/categories',function () {
         return view('admin.categories.store.index');

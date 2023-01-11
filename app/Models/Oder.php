@@ -16,6 +16,10 @@ class Oder extends Model
         'delivery_date',
         'payment_type',
         'delivery_address',
-        'delivery_status'
+        'delivery_status',
+        'store_id',
+        'vendor_type_id',
+        'amount',
+        'payment_dtatus',
     ];
 }

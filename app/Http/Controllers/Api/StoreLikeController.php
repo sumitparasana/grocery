@@ -95,8 +95,12 @@ class StoreLikeController extends Controller
                     $s->store_like = $like;
                 }
 
-                // return $store;
-                return $store->sortBy('store_like');
+                $store = $store->sortBy('store_like');
+                return response()->json([
+                    'status' => true,
+                    'message' => 'home page store by reating',
+                    'data' => array_values($store->toArray())
+                ], 200);
             }
         } catch (\Throwable $th) {
             return response()->json([

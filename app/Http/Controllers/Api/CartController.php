@@ -236,7 +236,8 @@ class CartController extends Controller
                     ->join('products as p','p.id','=','cp.product_id')
                     ->selectRaw('cp.*,p.name as product_name,p.price as product_price,(p.price * cp.product_count) as product_total_price')
                     ->where('cart_id',$cart->id)
-                    ->get();
+                    ->where('cp.vendor_type_id',$request->vendor_type_id)
+                    ->where('cp.store_id',$request->store_id)->get();
 
                     if($cart_product){
                         $product_prize = 0;

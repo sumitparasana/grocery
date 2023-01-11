@@ -43,45 +43,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
-                                        <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Garrett Winters</td>
-                                        <td>Accountant</td>
-                                        <td>Tokyo</td>
-                                        <td>63</td>
-                                        <td>2011/07/25</td>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
-                                        <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ashton Cox</td>
-                                        <td>Junior Technical Author</td>
-                                        <td>San Francisco</td>
-                                        <td>66</td>
-                                        <td>2009/01/12</td>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
-                                        <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
-                                    </tr>
+                                    @foreach ($data as $d)
+                                        <tr>
+                                            <td>{{$d->user_name}}</td>
+                                            <td>{{$d->name}}</td>
+                                            <td>{{$d->user_role}}</td>
+                                            <td>{{$d->image}}</td>
+                                            <td>{{$d->description}}</td>
+                                            <td>{{$d->free_delivery}}</td>
+                                            <td>{{$d->address}}</td>
+                                            <td>{{$d->zip_code}}</td>
+                                            <td>{{$d->delivery_prize}}</td>
+                                            <td>{{$d->delivery_time}}</td>
+                                            <td>
+                                                <a href="/store/{{$d->id}}/edit"><button type="button" class="btn btn-primary btn-xs">Edit</button></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>

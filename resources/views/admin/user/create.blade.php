@@ -25,39 +25,35 @@
                     </div>
                     <div class="card-body">
                         <div class="basic-form">
-                            <form>
-
+                            <form action="/users" method="POST">
+                                @csrf
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>First Name</label>
-                                        <input type="text" class="form-control" placeholder="1234 Main St">
+                                        <input type="text" name="name" class="form-control" placeholder="1234 Main St">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Email</label>
-                                        <input type="email" class="form-control" placeholder="Email">
+                                        <input type="email" name="email" class="form-control" placeholder="Email">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Password</label>
-                                        <input type="password" class="form-control" placeholder="Password">
+                                        <input type="password" name="password" class="form-control" placeholder="Password">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>phone</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" name="phone" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <label>Role</label>
-                                        <select id="inputState" class="form-control">
+                                        <select id="inputState" name="role" class="form-control">
                                             <option selected="">Choose...</option>
-                                            <option>super store</option>
-                                            <option>pharmacy</option>
-                                            <option>restaurant</option>
+                                            <option value="2">super store</option>
+                                            <option value="3">pharmacy</option>
+                                            <option value="4">restaurant</option>
                                         </select>
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Zip</label>
-                                        <input type="text" class="form-control">
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>

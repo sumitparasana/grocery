@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PharmacyController;
 use App\Http\Controllers\Api\StoreLikeController;
 use App\Http\Controllers\Api\SupportController;
+use App\Http\Controllers\Api\OderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,7 +82,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user/address/detail',[UserController::class,'getAddressDetail']);
 
     // pharmacy
-    Route::post('user/prescription/store',[PharmacyController::class,'storePrescription']);
+    Route::post('/user/prescription/store',[PharmacyController::class,'storePrescription']);
+
+    //Oder
+    Route::post('/oder/create',[OderController::class,'store']);
 
     // support
     Route::post('/support',[SupportController::class,'store']);

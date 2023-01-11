@@ -25,45 +25,45 @@
                     </div>
                     <div class="card-body">
                         <div class="basic-form">
-                            <form>
-
+                            <form action="/stores" method="POST">
+                                @csrf
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>store Name</label>
-                                        <input type="text" class="form-control" placeholder="1234 Main St">
+                                        <input type="text" class="form-control" name="name" placeholder="1234 Main St">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>users</label>
-                                        <select id="inputState" class="form-control">
+                                        <select id="inputState" name="user_id" class="form-control">
                                             <option selected="">Choose...</option>
-                                            <option>user 1</option>
-                                            <option>user 2</option>
-                                            <option>user 3</option>
+                                            @foreach ($data['user'] as $u)
+                                                <option value="{{$u->id}}">{{$u->name}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>image</label>
-                                        <input type="file" class="form-control" placeholder="file">
+                                        <input type="file" name="image" class="form-control" placeholder="file">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>free delivery</label>
-                                        <select id="inputState" class="form-control">
+                                        <select id="inputState" name="free_delivery" class="form-control">
                                             <option selected="">Choose...</option>
-                                            <option>yes</option>
-                                            <option>no</option>
+                                            <option value="1">yes</option>
+                                            <option value="0" >no</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label>description</label>
-                                        <input type="text" class="form-control" placeholder="address">
+                                        <input type="text" class="form-control" name="description" placeholder="address">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-8">
                                         <label>address</label>
-                                        <input type="text" class="form-control" placeholder="address">
+                                        <input type="text" class="form-control" name="address" placeholder="address">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Zip</label>
@@ -73,15 +73,15 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <label>location</label>
-                                        <input type="text" class="form-control" placeholder="address">
+                                        <input type="text" class="form-control" name="location" placeholder="address">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>delivery prize</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" name="delivery_prize" class="form-control">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>delivery time</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" name="delivery_time" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -89,13 +89,13 @@
                                         <label>teg</label>
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <input type="text" name="" id="" class="form-control" placeholder="teg 1">
+                                                <input type="text" name="teg1" id="" class="form-control" placeholder="teg 1">
                                             </div>
                                             <div class="col-md-4">
-                                                <input type="text" name="" id="" class="form-control" placeholder="teg 2">
+                                                <input type="text" name="teg2" id="" class="form-control" placeholder="teg 2">
                                             </div>
                                             <div class="col-md-4">
-                                                <input type="text" name="" id="" class="form-control" placeholder="teg 3">
+                                                <input type="text" name="teg3" id="" class="form-control" placeholder="teg 3">
                                             </div>
                                         </div>
                                     </div>
