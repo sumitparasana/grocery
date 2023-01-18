@@ -28,8 +28,10 @@
                             <table id="example" class="display" style="min-width: 845px">
                                 <thead>
                                     <tr>
+                                        @if (auth()->user()->role == 1)
                                         <th>store name</th>
                                         <th>store type</th>
+                                        @endif
                                         <th>categorie name</th>
                                         <th>action</th>
                                     </tr>
@@ -37,8 +39,10 @@
                                 <tbody>
                                     @foreach ($data as $d)
                                         <tr>
+                                            @if (auth()->user()->role == 1)
                                             <td>{{ $d->store_name }}</td>
                                             <td>{{ $d->store_type }}</td>
+                                            @endif
                                             <td>{{ $d->name }}</td>
                                             <td>
                                                 <a href="/store/categories/{{$d->id}}/edit"><button type="button" class="btn btn-primary btn-xs">Edit</button></a>
@@ -48,8 +52,10 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
+                                        @if (auth()->user()->role == 1)
                                         <th>store name</th>
                                         <th>store type</th>
+                                        @endif
                                         <th>categorie name</th>
                                         <th>action</th>
                                     </tr>

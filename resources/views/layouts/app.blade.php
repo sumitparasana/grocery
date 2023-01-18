@@ -85,13 +85,15 @@
                         <li class="nav-label first">Main Menu</li>
                         <li><a href="./index.html">Dashboard 1</a></li>
                         <li class="nav-label">Stores</li>
-                        @if(auth()->user()->role == 'admin')
+                        @if(auth()->user()->role == 1)
                             <li><a href="/users">Users</a></li>
                         @endif
                         <li><a href="/stores">stores</a></li>
                         <li><a href="/store/categories">stores categories</a></li>
-                        <li><a href="/product">product</a></li>
-                        <li><a href="/product/categories">restaurant add on</a></li>
+                        <li><a href="/products">product</a></li>
+                        @if (in_array(auth()->user()->role, ['1', '4']))
+                            <li><a href="/product/categories">restaurant add on</a></li>
+                        @endif
                         <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <span class="nav-text">oder</span></a>
                             <ul aria-expanded="false">
@@ -115,6 +117,7 @@
             </div>
         </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
     <script src="{{URL::asset('/vendor/global/global.min.js')}}"></script>
     <script src="{{URL::asset('/js/quixnav-init.js')}}"></script>
     <script src="{{URL::asset('/js/custom.min.js')}}"></script>

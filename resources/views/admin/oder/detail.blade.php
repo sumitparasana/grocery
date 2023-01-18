@@ -26,7 +26,7 @@
                                 <span>user name</span>
                             </div>
                             <div class="col-md-3">
-                                <span>rutvik</span>
+                                <span>{{$data['oder']->user_name}}</span>
                             </div>
                         </div>
                         <div class="row">
@@ -34,7 +34,7 @@
                                 <span>delivery address</span>
                             </div>
                             <div class="col-md-3">
-                                <span>Ett Tower 2, 7th Floor Noida sector 132 Uttar Pradesh</span>
+                                <span>{{$data['oder']->address}}</span>
                             </div>
                         </div>
                         <div class="row">
@@ -42,7 +42,7 @@
                                 <span>phone</span>
                             </div>
                             <div class="col-md-3">
-                                <span>1234567890</span>
+                                <span>{{$data['oder']->delivery_phone}}</span>
                             </div>
                         </div>
                         <div class="row">
@@ -50,7 +50,7 @@
                                 <span>oder id</span>
                             </div>
                             <div class="col-md-3">
-                                <span>1234560</span>
+                                <span>{{$data['oder']->id}}</span>
                             </div>
                         </div>
 
@@ -59,13 +59,15 @@
                                 <span>oder date</span>
                             </div>
                             <div class="col-md-3">
-                                <span>31-01-2025</span>
+                                <span>{{$data['oder']->creation_date}}</span>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-3">
-                                <button type="button" class="btn btn-secondary">View prescription</button>
+                                @if($data['oder']->vendor_type_id == 3)
+                                    <button type="button" class="btn btn-secondary">View prescription</button>
+                                @endif
                                 <button type="button" class="btn btn-secondary">add product</button>
                             </div>
                         </div>
@@ -83,26 +85,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th>apply</th>
-                                            <th>4</th>
-                                            <th>20</th>
-                                            <th>image</th>
-                                        </tr>
-
-                                        <tr>
-                                            <th>orage</th>
-                                            <th>2</th>
-                                            <th>10</th>
-                                            <th>image</th>
-                                        </tr>
-
-                                        <tr>
-                                            <th>banana</th>
-                                            <th>12</th>
-                                            <th>50</th>
-                                            <th>image</th>
-                                        </tr>
+                                        @foreach ($data['oder_product'] as $op)
+                                            <tr>
+                                                <th>{{$op->product_name}}</th>
+                                                <th>{{$op->product_count}}</th>
+                                                <th>{{$op->product_price}}</th>
+                                                <th>{{$op->product_image}}</th>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -117,13 +107,20 @@
                             <p>grind total</p>
                         </div>
                         <div class="col-md-6">
-                            <p>5000/-</p>
-                            <p>500/-</p>
-                            <p>4500/-</p>
+                            <p>{{$data['total_price']}}/-</p>
+                            <p>{{$data['product_discount']}}/-</p>
+                            <p>{{$data['grant_total']}}/-</p>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="button" class="btn btn-secondary">change status</button>
+                        <form action="/oder/{{$data['oder']->id}}/changeStatus" method="get">
+                            <label for="">chnage status</label>
+                            <select name="status" id="" onchange="this.form.submit()">
+                                <option value=""></option>
+                                <option value=""></option>
+                            </select>
+                        </form>
+                        {{-- <button type="button" class="btn btn-secondary">change status</button> --}}
                     </div>
                 </div>
             </div>

@@ -29,47 +29,41 @@
                             <table id="example" class="display" style="min-width: 845px">
                                 <thead>
                                     <tr>
+                                        @if (auth()->user()->role == 1)
                                         <th>store</th>
-                                        <th>store type</th>
+                                        @endif
                                         <th>categorie</th>
                                         <th>product</th>
                                         <th>product categorie</th>
+                                        <th>price</th>
                                         <th>action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($data as $d)
                                     <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>Edinburgh</td>
-                                        <td>Edinburgh</td>
-                                        <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
+                                        @if (auth()->user()->role == 1)
+                                        <td>{{$d->store_name}}</td>
+                                        @endif
+                                        <td>{{$d->categorie_name}}</td>
+                                        <td>{{$d->product_name}}</td>
+                                        <td>{{$d->name}}</td>
+                                        <td>{{$d->price}}</td>
+                                        <td>
+                                            <a href="/product/categories/{{$d->id}}/edit"><button type="button" class="btn btn-primary btn-xs">Edit</button></a>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td>Garrett Winters</td>
-                                        <td>Accountant</td>
-                                        <td>Tokyo</td>
-                                        <td>Tokyo</td>
-                                        <td>Tokyo</td>
-                                        <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ashton Cox</td>
-                                        <td>Junior Technical Author</td>
-                                        <td>San Francisco</td>
-                                        <td>San Francisco</td>
-                                        <td>San Francisco</td>
-                                        <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
+                                        @if (auth()->user()->role == 1)
                                         <th>store</th>
-                                        <th>store type</th>
+                                        @endif
                                         <th>categorie</th>
                                         <th>product</th>
                                         <th>product categorie</th>
+                                        <th>price</th>
                                         <th>action</th>
                                     </tr>
                                 </tfoot>

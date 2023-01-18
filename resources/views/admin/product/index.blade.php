@@ -22,17 +22,21 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">product</h4>
-                        <a href="/product/create"><button type="button" class="btn btn-primary">create</button></a>
+                        <a href="/products/create"><button type="button" class="btn btn-primary">create</button></a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="example" class="display" style="min-width: 845px">
                                 <thead>
                                     <tr>
+                                        @if (auth()->user()->role == 1)
                                         <th>store name</th>
+                                        @endif
                                         <th>categories name</th>
                                         <th>product name</th>
+                                        @if (auth()->user()->role == 1)
                                         <th>store type</th>
+                                        @endif
                                         <th>description</th>
                                         <th>price</th>
                                         <th>discount_price</th>
@@ -44,55 +48,39 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                @foreach ($data as $d)
                                     <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
-                                        <td>Tiger Nixon</td>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
-                                        <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
+                                        @if (auth()->user()->role == 1)
+                                        <td>{{$d->store_name}}</td>
+                                        @endif
+                                        <td>{{$d->categorie_name}}</td>
+                                        <td>{{$d->name}}</td>
+                                        @if (auth()->user()->role == 1)
+                                        <td>{{$d->store_type}}</td>
+                                        @endif
+                                        <td>{{$d->description}}</td>
+                                        <td>{{$d->price}}</td>
+                                        <td>{{$d->discount_price}}</td>
+                                        <td>{{$d->capacity}}</td>
+                                        <td>{{$d->available_qty}}</td>
+                                        <td>{{$d->deliverable}}</td>
+                                        <td>{{$d->image}}</td>
+                                        <td>
+                                            <a href="/products/{{$d->id}}/edit"><button type="button" class="btn btn-primary btn-xs">Edit</button></a>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td>Garrett Winters</td>
-                                        <td>Accountant</td>
-                                        <td>Tokyo</td>
-                                        <td>63</td>
-                                        <td>2011/07/25</td>
-                                        <td>Garrett Winters</td>
-                                        <td>Accountant</td>
-                                        <td>Tokyo</td>
-                                        <td>63</td>
-                                        <td>2011/07/25</td>
-                                        <td>2011/07/25</td>
-                                        <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ashton Cox</td>
-                                        <td>Junior Technical Author</td>
-                                        <td>San Francisco</td>
-                                        <td>66</td>
-                                        <td>2009/01/12</td>
-                                        <td>Ashton Cox</td>
-                                        <td>Junior Technical Author</td>
-                                        <td>San Francisco</td>
-                                        <td>66</td>
-                                        <td>2009/01/12</td>
-                                        <td>2009/01/12</td>
-                                        <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
-                                    </tr>
+                                @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
+                                        @if (auth()->user()->role == 1)
                                         <th>store name</th>
+                                        @endif
                                         <th>categories name</th>
                                         <th>product name</th>
+                                        @if (auth()->user()->role == 1)
                                         <th>store type</th>
+                                        @endif
                                         <th>description</th>
                                         <th>price</th>
                                         <th>discount_price</th>

@@ -27,7 +27,13 @@ class StoreController extends Controller
         ->leftJoin('roles as r', 'u.role','=','r.id')
         ->selectRaw('s.*,u.id as user_id,u.name as user_name,r.name as user_role')
         ->get();
-        return view('admin.store.index',['data'=>$store]);
+
+        if(auth()->user()->role == 1){
+            return view('admin.store.index',['data'=>$store]);
+        }else{
+            $store_id = Store::where('user_id',auth()->user()->id)->pluck('id')->first();
+            return redirect('/stores/'.$store_id.'/edit');
+        }
     }
 
     /**

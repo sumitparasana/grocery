@@ -28,19 +28,27 @@
                             <form action="/store/categories" method="POST">
                                 @csrf
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label>categorie name</label>
                                         <input type="text" class="form-control" name="name" placeholder="categories">
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label>store</label>
-                                        <select id="inputState" class="form-control" name="store_id">
+                                    @if (auth()->user()->role == 1)
+                                    <div class="form-group col-md-4">
+                                        <label>store type</label>
+                                        <select id="vendor_id" name="vendor_type_id" class="form-control">
                                             <option selected="">Choose...</option>
-                                            @foreach ($data['store'] as $s)
-                                                <option value="{{$s->id}}">{{ $s->name }}</option>
-                                            @endforeach
+                                            <option value="1">supar market</option>
+                                            <option value="2">pharmacy</option>
+                                            <option value="3" >restaurant</option>
                                         </select>
                                     </div>
+                                    <div class="form-group col-md-4">
+                                        <label>store</label>
+                                        <select id="store_id" class="form-control" name="store_id">
+                                            <option selected="">Choose...</option>
+                                        </select>
+                                    </div>
+                                    @endif
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
@@ -65,4 +73,27 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script>
+$(document).ready(function () {
+    $('#vendor_id').change(function () {
+        var vendor_id = $(this).val();
+        console.log(vendor_id);
+        $.ajax({
+            type: "get",
+            url: "/vendor/"+vendor_id+"/getStore",
+            data: "data",
+            success: function (response) {
+                var html = '';
+                $.each(response, function (k, v) {
+                    html += '<option value="'+v.id+'">'+v.name+'</option>';
+                });
+                $('#store_id').html(html);
+            }
+        });
+    })
+});
+</script>
 @endsection

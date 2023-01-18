@@ -86,6 +86,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     //Oder
     Route::post('/oder/create',[OderController::class,'store']);
+    Route::get('/oder/getOder',[OderController::class,'getOder']);
+    Route::get('/oder/detail/{id}',[OderController::class,'oderDetail']);
+    Route::post('/oder/cancel/{id}',[OderController::class,'oderCancel']);
 
     // support
     Route::post('/support',[SupportController::class,'store']);

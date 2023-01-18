@@ -20,6 +20,7 @@ class Oder extends Model
         'store_id',
         'vendor_type_id',
         'amount',
-        'payment_dtatus',
+        'payment_status',
+        'paid_amount',
     ];
 }

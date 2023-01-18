@@ -29,13 +29,22 @@
                                 @method('PUT')
                                 @csrf
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label>store Name</label>
                                         <input type="text" class="form-control" name="name" value="{{ $store->name }}" placeholder="1234 Main St">
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
+                                        <label>store type</label>
+                                        <select id="vendor_id" name="vendor_type_id" class="form-control">
+                                            <option selected="">Choose...</option>
+                                            <option value="1" @if($store->vendor_type_id == 1) selected @endif>supar market</option>
+                                            <option value="2" @if($store->vendor_type_id == 2) selected @endif>pharmacy</option>
+                                            <option value="3" @if($store->vendor_type_id == 3) selected @endif>restaurant</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
                                         <label>users</label>
-                                        <select id="inputState" name="user_id" class="form-control">
+                                        <select id="user_id" name="user_id" class="form-control">
                                             <option>Choose...</option>
                                             @foreach ($data['user'] as $u)
                                                 <option value="{{$u->id}}" @if($store->user_id == $u->id) selected @endif>{{$u->name}}</option>
@@ -46,15 +55,7 @@
                                         <label>image</label>
                                         <input type="file" name="image" class="form-control" placeholder="file">
                                     </div>
-                                    <div class="form-group col-md-4">
-                                        <label>store type</label>
-                                        <select id="inputState" name="vendor_type_id" class="form-control">
-                                            <option selected="">Choose...</option>
-                                            <option value="1" @if($store->vendor_type_id == 1) selected @endif>supar market</option>
-                                            <option value="2" @if($store->vendor_type_id == 2) selected @endif>pharmacy</option>
-                                            <option value="3" @if($store->vendor_type_id == 3) selected @endif>restaurant</option>
-                                        </select>
-                                    </div>
+
                                     <div class="form-group col-md-4">
                                         <label>free delivery</label>
                                         <select id="inputState" name="free_delivery" class="form-control">
@@ -120,3 +121,27 @@
     </div>
 </div>
 @endsection
+
+@section('js')
+<script>
+$(document).ready(function () {
+    $('#vendor_id').change(function () {
+        var vendor_id = $(this).val();
+        console.log(vendor_id);
+        $.ajax({
+            type: "get",
+            url: "/vendor/"+vendor_id+"/getUser",
+            data: "data",
+            success: function (response) {
+                var html = '';
+                $.each(response, function (k, v) {
+                    html += '<option value="'+v.id+'">'+v.name+'</option>';
+                });
+                $('#user_id').html(html);
+            }
+        });
+    })
+});
+</script>
+@endsection
+        

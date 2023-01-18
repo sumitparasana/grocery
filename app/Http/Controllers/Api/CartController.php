@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\CartProductCategorie;
+use App\Models\Address;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\Validator;
@@ -391,6 +392,8 @@ class CartController extends Controller
                     $data['small_oder'] = 2;
                     $data['promo_code'] = null;
                     $data['total'] = $product_prize + 2;
+
+                    $data['address'] = Address::where('user_id',auth()->user()->id)->get();
 
                     return response()->json([
                         'status' => true,

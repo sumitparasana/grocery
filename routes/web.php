@@ -4,6 +4,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StoreCategoriesController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductCategoriesController;
+use App\Http\Controllers\OderController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,49 +46,23 @@ Route::middleware('auth')->group(function () {
 
     // categories
     Route::resource('/store/categories', StoreCategoriesController::class);
-    // Route::get('/stores/categories',function () {
-    //     return view('admin.categories.store.index');
-    // });
 
-    // Route::get('/stores/categories/create',function () {
-    //     return view('admin.categories.store.create');
-    // });
+    // product
 
-    route::get('/product',function () {
-        return view('admin.product.index');
-    });
+    Route::resource('/products',ProductController::class);
+    Route::resource('/product/categories',ProductCategoriesController::class);
 
-    Route::get('/product/create',function () {
-        return view('admin.product.create');
-    });
-
-    Route::get('/product/categories',function () {
-        return view('admin.categories.product.index');
-    });
-
-    Route::get('/product/categories/create',function () {
-        return view('admin.categories.product.create');
-    });
 
     Route::get('/user/profile',function () {
         return view('admin.user.user-profile');
     });
 
-    Route::get('/oder/new',function () {
-        return view('admin.oder.new');
-    });
+    Route::get('/oder/new',[OderController::class,'indexNew']);
+    Route::get('/oder/on-going',[OderController::class,'indexOnGoing']);
+    Route::get('/oder/past',[OderController::class,'indexPast']);
+    Route::get('/oder/detail/{id}',[OderController::class,'show']);
 
-    Route::get('/oder/on-going',function () {
-        return view('admin.oder.on-going');
-    });
-
-    Route::get('/oder/past',function () {
-        return view('admin.oder.past');
-    });
-
-    Route::get('/oder/detail',function () {
-        return view('admin.oder.detail');
-    });
+    Route::get('/oder/{id}/changeStatus',[OderController::class,'changeStatus']);
 
     Route::get('/eraning',function () {
         return view('admin.eraning.index');
@@ -93,6 +71,11 @@ Route::middleware('auth')->group(function () {
      Route::get('/transaction',function () {
         return view('admin.transaction.index');
      });
+
+     Route::get('/vendor/{id}/getUser',[ServiceController::class,'getUserByVendor']);
+     Route::get('/vendor/{id}/getStore',[ServiceController::class,'getStoreByVendor']);
+     Route::get('/store/{id}/getCategorie',[ServiceController::class,'getCategorieByStore']);
+     Route::get('/store/{id}/getProduct',[ServiceController::class,'getProductByStore']);
 });
 
 require __DIR__.'/auth.php';

@@ -25,36 +25,35 @@
                     </div>
                     <div class="card-body">
                         <div class="basic-form">
-                            <form>
-
+                            <form action="/product/categories" method="POST">
+                                @csrf
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label>categorie name</label>
-                                        <input type="text" class="form-control" placeholder="categories">
+                                        <input type="text" class="form-control" name="name" placeholder="categories">
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    @if (auth()->user()->role == 1)
+                                    <div class="form-group col-md-4">
                                         <label>store</label>
-                                        <select id="inputState" class="form-control">
-                                            <option selected="">Choose...</option>
-                                            <option>store 1</option>
-                                            <option>store 2</option>
-                                            <option>store 3</option>
+                                        <select id="store_id" name="store_id" class="form-control">
+                                            <option >Choose...</option>
+                                            @foreach ($data['store'] as $s)
+                                                <option value="{{$s->id}}">{{$s->name}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
+                                    @endif
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>product name</label>
-                                        <select id="inputState" class="form-control">
+                                        <select id="product_id" name="product_id" class="form-control">
                                             <option selected="">Choose...</option>
-                                            <option>product 1</option>
-                                            <option>product 2</option>
-                                            <option>product 3</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>prize</label>
-                                        <input type="text" class="form-control">
+                                        <label>price</label>
+                                        <input type="text" name="price" class="form-control">
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -66,4 +65,27 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script>
+$(document).ready(function () {
+    $('#store_id').change(function () {
+        var store_id = $(this).val();
+        console.log(store_id);
+        $.ajax({
+            type: "get",
+            url: "/store/"+store_id+"/getProduct",
+            data: "data",
+            success: function (response) {
+                var html = '';
+                $.each(response, function (k, v) {
+                    html += '<option value="'+v.id+'">'+v.name+'</option>';
+                });
+                $('#product_id').html(html);
+            }
+        });
+    });
+});
+</script>
 @endsection

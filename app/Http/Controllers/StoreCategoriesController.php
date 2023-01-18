@@ -52,7 +52,7 @@ class StoreCategoriesController extends Controller
         $validateUser = Validator::make($request->all(),
         [
             'name' => 'required',
-            'store_id' => 'required',
+            'store_id' => 'nullable',
         ]);
 
         if($validateUser->fails()){
@@ -63,7 +63,13 @@ class StoreCategoriesController extends Controller
             ], 401);
         }
 
-        $store = DB::table('stores')->where('id',$request->store_id)->first();
+        $store = DB::table('stores');
+
+        if(isset($request->store_id)){
+            $store = $store->where('id',$request->store_id)->first();
+        }else{
+            $store = $store->where('user_id',auth()->user()->id)->first();
+        }
 
         if($store){
             $categorie =new Categorie([
@@ -133,7 +139,7 @@ class StoreCategoriesController extends Controller
         if($store){
             $categorie = Categorie::where('id',$id)->first();
             if($categorie){
-                
+
                 $categorie->name = $request->name;
                 $categorie->vendor_type_id = $store->vendor_type_id;
                 $categorie->store_id = $store->id;

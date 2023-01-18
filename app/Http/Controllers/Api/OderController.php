@@ -76,6 +76,7 @@ class OderController extends Controller
             $oder->store_id = $request->store_id;
             $oder->vendor_type_id = $request->vendor_type_id;
             $oder->amount = $request->amount;
+            $oder->paid_amount = 0;
 
             $data = [];
             if($oder->save()){
@@ -95,7 +96,8 @@ class OderController extends Controller
                             'oder_id' => $oder->id,
                             'product_id' => $p->product_id,
                             'product_count' => $p->product_count,
-                            'product_price' => $p->price
+                            'product_price' => $p->price,
+                            'delivery_status' => 1,
                         ]);
 
                         if($oder_product->save()){
@@ -200,4 +202,109 @@ class OderController extends Controller
     {
         //
     }
+
+    public function getOder(){
+        try {
+            $oder = Oder::leftJoin('statuses as s','s.id','=','oders.status')
+                ->where('user_id',auth()->user()->id)
+                ->selectRaw('oders.*,s.name as status_name')
+                ->get();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'oder details',
+                'data' => $oder,
+            ], 200);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function oderDetail($id){
+        try {
+            $oder = DB::table('oders as o')
+            ->leftJoin('statuses as s','s.id','=','o.status')
+            ->leftJoin('addresses as a','a.id','=','o.delivery_address')
+            ->selectRaw('o.*,s.name as oder_status_name,a.name as address_name,a.phone as address_phone,a.address as address,(o.amount - o.paid_amount) as skip_for_pay')
+            ->where('o.id',$id)->first();
+
+            if($oder){
+                $oder_product = DB::table('oder_products as op')
+                ->leftJoin('statuses as s','s.id','=','op.delivery_status')
+                ->leftJoin('products as p','p.id','=','op.product_id')
+                ->selectRaw('op.*,s.name as oder_product_status,p.name as product_name')
+                ->where('op.oder_id',$oder->id)->get();
+
+                $oder->oder_product = $oder_product;
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'oder details',
+                    'data' => $oder,
+                ], 200);
+            }else{
+                return response()->json([
+                    'status' => true,
+                    'message' => 'oder product not found',
+                ], 401);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function oderCancel(Request $request,$id){
+        try {
+            $oder = Oder::where('id',$id)->first();
+            if($oder){
+                $oder->status = 9;
+                if($oder->save()){
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'oder details',
+                        'data' => $oder,
+                    ], 200);
+                }else{
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'oder not cancle',
+                    ], 401);
+                }
+            }else{
+                return response()->json([
+                    'status' => false,
+                    'message' => 'oder id not found',
+                ], 401);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
 }
+
+
+// Pending — Customer started the checkout process but did not complete it. Incomplete orders are assigned a "Pending" status and can be found under the More tab in the View Orders screen.
+// Awaiting Payment — Customer has completed the checkout process, but payment has yet to be confirmed. Authorize only transactions that are not yet captured have this status.
+// Awaiting Fulfillment — Customer has completed the checkout process and payment has been confirmed.
+// Awaiting Shipment — Order has been pulled and packaged and is awaiting collection from a shipping provider.
+// Awaiting Pickup — Order has been packaged and is awaiting customer pickup from a seller-specified location.
+// Partially Shipped — Only some items in the order have been shipped.
+// Completed — Order has been shipped/picked up, and receipt is confirmed; client has paid for their digital product, and their file(s) are available for download.
+// Shipped — Order has been shipped, but receipt has not been confirmed; seller has used the Ship Items action. A listing of all orders with a "Shipped" status can be found under the More tab of the View Orders screen.
+// Cancelled — Seller has cancelled an order, due to a stock inconsistency or other reasons. Stock levels will automatically update depending on your Inventory Settings. Cancelling an order will not refund the order. This status is triggered automatically when an order using an authorize-only payment gateway is voided in the control panel before capturing payment.
+// Declined — Seller has marked the order as declined.
+// Refunded — Seller has used the Refund action to refund the whole order. A listing of all orders with a "Refunded" status can be found under the More tab of the View Orders screen.
+// Disputed — Customer has initiated a dispute resolution process for the PayPal transaction that paid for the order or the seller has marked the order as a fraudulent order.
+// Manual Verification Required — Order on hold while some aspect, such as tax-exempt documentation, is manually confirmed. Orders with this status must be updated manually. Capturing funds or other order actions will not automatically update the status of an order marked Manual Verification Required.
+// Partially Refunded — Seller has partially refunded the order.
+

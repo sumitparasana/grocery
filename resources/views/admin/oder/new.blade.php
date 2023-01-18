@@ -22,6 +22,16 @@
                         {{-- <a href="/users/create"><button type="button" class="btn btn-primary">create</button></a> --}}
                     </div>
                     <div class="card-body">
+                        @if(session()->has('message'))
+                            <div class="alert alert-primary solid">
+                                {{ session()->get('message') }}
+                            </div>
+                        @endif
+                        @if(session()->has('error'))
+                            <div class="alert alert-danger  solid">
+                                {{ session()->get('error') }}
+                            </div>
+                        @endif
                         <div class="table-responsive">
                             <table id="example" class="display" style="min-width: 845px">
                                 <thead>
@@ -31,50 +41,24 @@
                                         <th>amount</th>
                                         <th>user name</th>
                                         <th>delvery address</th>
-                                        <th>image</th>
                                         <th>action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
-                                        <td>2011/04/25</td>
-                                        <td>
-                                            <a href="/oder/detail"><button type="button" class="btn btn-info btn-xs">detail</button></a>
-                                            <button type="button" class="btn btn-primary btn-xs">Accept</button>
-                                            <button type="button" class="btn btn-danger btn-xs">Reject</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Garrett Winters</td>
-                                        <td>Accountant</td>
-                                        <td>Tokyo</td>
-                                        <td>63</td>
-                                        <td>63</td>
-                                        <td>2011/07/25</td>
-                                        <td>
-                                            <button type="button" class="btn btn-info btn-xs">detail</button>
-                                            <button type="button" class="btn btn-primary btn-xs">Accept</button>
-                                            <button type="button" class="btn btn-danger btn-xs">Reject</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ashton Cox</td>
-                                        <td>Junior Technical Author</td>
-                                        <td>San Francisco</td>
-                                        <td>San Francisco</td>
-                                        <td>66</td>
-                                        <td>2009/01/12</td>
-                                        <td>
-                                            <button type="button" class="btn btn-info btn-xs">detail</button>
-                                            <button type="button" class="btn btn-primary btn-xs">Accept</button>
-                                            <button type="button" class="btn btn-danger btn-xs">Reject</button>
-                                        </td>
-                                    </tr>
+                                    @foreach ($data as $d)
+                                        <tr>
+                                            <td>{{$d->id}}</td>
+                                            <td>{{$d->creation_date}}</td>
+                                            <td>{{$d->amount}}</td>
+                                            <td>{{$d->user_name}}</td>
+                                            <td>{{$d->address}}</td>
+                                            <td>
+                                                <a href="/oder/detail/{{$d->id}}"><button type="button" class="btn btn-info btn-xs">detail</button></a>
+                                                <a href="/oder/{{$d->id}}/changeStatus?status=15"><button type="button" class="btn btn-primary btn-xs">Accept</button></a>
+                                                <a href="/oder/{{$d->id}}/changeStatus?status=9"><button type="button" class="btn btn-danger btn-xs">Reject</button></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -83,7 +67,6 @@
                                         <th>amount</th>
                                         <th>user name</th>
                                         <th>delvery address</th>
-                                        <th>image</th>
                                         <th>action</th>
                                     </tr>
                                 </tfoot>
