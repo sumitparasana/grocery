@@ -56,12 +56,11 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-        $validateUser = Validator::make($request->all(),
-        [
+        $request->validate([
             'user_id' => 'required',
             'vendor_type_id' => 'required',
             'name' => 'required',
-            'image' => 'required',
+            'image' => 'nullable',
             'description' => 'required',
             'address' => 'nullable',
             'zip_code' => 'nullable',
@@ -72,14 +71,6 @@ class StoreController extends Controller
             'delivery_time' => 'required',
             'tage' => 'required',
         ]);
-
-        if($validateUser->fails()){
-            return response()->json([
-                'status' => false,
-                'message' => 'validation error',
-                'errors' => $validateUser->errors()
-            ], 401);
-        }
 
         if(!empty($request->file('image'))){
             $image_data = Helper::fileUploadApi('upload/store',$request->file('image'));
@@ -151,8 +142,7 @@ class StoreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validateUser = Validator::make($request->all(),
-        [
+        $request->validate([
             'user_id' => 'required',
             'vendor_type_id' => 'required',
             'name' => 'required',
@@ -167,14 +157,6 @@ class StoreController extends Controller
             'delivery_time' => 'required',
             'tage' => 'required',
         ]);
-
-        if($validateUser->fails()){
-            return response()->json([
-                'status' => false,
-                'message' => 'validation error',
-                'errors' => $validateUser->errors()
-            ], 401);
-        }
 
         $store = Store::where('id',$id)->first();
 

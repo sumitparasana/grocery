@@ -261,6 +261,8 @@ class CartController extends Controller
                         $data['promo_code'] = null;
                         $data['total'] = $product_prize + 2;
                         $cart->cart_summary = $data;
+
+                        $cart->address = Address::where('user_id',$user_id)->get();
                     }
 
 

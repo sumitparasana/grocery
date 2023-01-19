@@ -24,6 +24,15 @@
                         <h4 class="card-title">product categories create</h4>
                     </div>
                     <div class="card-body">
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="list-unstyled">
+                                @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
                         <div class="basic-form">
                             <form action="/product/categories" method="POST">
                                 @csrf

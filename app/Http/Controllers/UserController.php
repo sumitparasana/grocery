@@ -40,22 +40,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validateUser = Validator::make($request->all(),
-        [
+        $request->validate([
             'name' => 'required',
             'phone' => 'required|unique:users',
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'role' => 'required'
         ]);
-
-        if($validateUser->fails()){
-            return response()->json([
-                'status' => false,
-                'message' => 'validation error',
-                'errors' => $validateUser->errors()
-            ], 401);
-        }
 
         $user = User::create([
             'name' => $request->name,
@@ -89,6 +80,13 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $request->validate([
+            'name' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
+            'role' => 'required'
+        ]);
+        
         $data = User::where('id',$id)->first();
         return view('admin.user.edit',['data'=>$data]);
     }

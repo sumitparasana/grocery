@@ -21,6 +21,16 @@
                         <h4 class="card-title">Oder Detail</h4>
                     </div>
                     <div class="card-body">
+                        @if(session()->has('message'))
+                            <div class="alert alert-primary solid">
+                                {{ session()->get('message') }}
+                            </div>
+                        @endif
+                        @if(session()->has('error'))
+                            <div class="alert alert-danger  solid">
+                                {{ session()->get('error') }}
+                            </div>
+                        @endif
                         <div class="row">
                             <div class="col-md-2 font-weight-bold">
                                 <span>user name</span>
@@ -116,8 +126,9 @@
                         <form action="/oder/{{$data['oder']->id}}/changeStatus" method="get">
                             <label for="">chnage status</label>
                             <select name="status" id="" onchange="this.form.submit()">
-                                <option value=""></option>
-                                <option value=""></option>
+                                @foreach ($data['status'] as $s)
+                                    <option value="{{$s->id}}" @if($data['oder']->status == $s->id) selected @endif>{{$s->name}}</option>
+                                @endforeach
                             </select>
                         </form>
                         {{-- <button type="button" class="btn btn-secondary">change status</button> --}}

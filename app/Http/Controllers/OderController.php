@@ -105,7 +105,7 @@ class OderController extends Controller
             $data['grant_total'] = $product_price;
         }
 
-        $data['status'] = DB::table('')get();
+        $data['status'] = DB::table('statuses')->select('id','name')->get();
 
         return view('admin.oder.detail',['data' => $data]);
     }

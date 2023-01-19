@@ -25,6 +25,16 @@
                         <a href="/product/categories/create"><button type="button" class="btn btn-primary">create</button></a>
                     </div>
                     <div class="card-body">
+                        @if(session()->has('message'))
+                            <div class="alert alert-primary solid">
+                                {{ session()->get('message') }}
+                            </div>
+                        @endif
+                        @if(session()->has('error'))
+                            <div class="alert alert-danger  solid">
+                                {{ session()->get('error') }}
+                            </div>
+                        @endif
                         <div class="table-responsive">
                             <table id="example" class="display" style="min-width: 845px">
                                 <thead>

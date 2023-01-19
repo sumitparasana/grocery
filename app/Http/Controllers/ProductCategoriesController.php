@@ -67,21 +67,12 @@ class ProductCategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        $validateUser = Validator::make($request->all(),
-        [
+        $request->validate([
             'name' => 'required',
             'store_id' => 'nullable',
             'product_id' => 'required',
             'price' => 'required'
         ]);
-
-        if($validateUser->fails()){
-            return response()->json([
-                'status' => false,
-                'message' => 'validation error',
-                'errors' => $validateUser->errors()
-            ], 401);
-        }
 
         $product = DB::table('products as p')
         ->where('id',$request->product_id)->first();
@@ -121,6 +112,13 @@ class ProductCategoriesController extends Controller
      */
     public function edit($id)
     {
+        $request->validate([
+            'name' => 'required',
+            'store_id' => 'nullable',
+            'product_id' => 'required',
+            'price' => 'required'
+        ]);
+        
         $data['store'] = DB::table('stores as s')
         ->where('vendor_type_id',3)->get();
 

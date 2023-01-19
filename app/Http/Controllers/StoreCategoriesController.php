@@ -49,19 +49,10 @@ class StoreCategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        $validateUser = Validator::make($request->all(),
-        [
+        $request->validate([
             'name' => 'required',
             'store_id' => 'nullable',
         ]);
-
-        if($validateUser->fails()){
-            return response()->json([
-                'status' => false,
-                'message' => 'validation error',
-                'errors' => $validateUser->errors()
-            ], 401);
-        }
 
         $store = DB::table('stores');
 
@@ -105,6 +96,11 @@ class StoreCategoriesController extends Controller
      */
     public function edit($id)
     {
+        $request->validate([
+            'name' => 'required',
+            'store_id' => 'nullable',
+        ]);
+        
         $data['store'] = DB::table('stores')->get();
 
         $categorie = Categorie::where('id',$id)->first();
