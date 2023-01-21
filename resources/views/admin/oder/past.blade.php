@@ -54,7 +54,7 @@
                                             <td>{{$d->address}}</td>
                                             <td>
                                                 <a href="/oder/detail/{{$d->id}}"><button type="button" class="btn btn-info btn-xs">detail</button></a>
-                                                <a href="/oder/{{$d->id}}/changeStatus?status=7"><button type="button" class="btn btn-primary btn-xs">change status</button></a>
+                                                {{-- <a href="/oder/{{$d->id}}/changeStatus?status=7"><button type="button" class="btn btn-primary btn-xs">change status</button></a> --}}
                                             </td>
                                         </tr>
                                     @endforeach

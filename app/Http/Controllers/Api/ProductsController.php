@@ -158,7 +158,7 @@ class ProductsController extends Controller
 
     public function getProducts(Request $request){
         try{
-            $products = Products::where('store_id',$request->store_id)->get();
+            $products = Products::where('store_id',$request->store_id)->orderBy('sell_count','desc')->get();
 
             if(!$products){
                 return response()->json([
@@ -184,6 +184,7 @@ class ProductsController extends Controller
         try{
             $products = DB::table('products as p')->join('categories as c','c.id','=','p.categorie_id')
             ->select('p.*','c.name as categorie_name')
+            ->oderBy('sell_count','desc')
             ->get()->groupBy('categorie_name');
 
             if(!$products){

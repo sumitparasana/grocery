@@ -23,6 +23,17 @@ class Products extends Model
         'store_id',
         'categorie_id',
         'deleted_at',
+        'sell_count',
     ];
+
+    static function productSell($id){
+        $product = Products::where('id',$id)->first();
+
+        if($product){
+            $product->sell_count = ($product->sell_count != null) ? $product->sell_count + 1 : 1;
+
+            $product->save();
+        }
+    }
 
 }

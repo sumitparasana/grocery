@@ -60,6 +60,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/oder/new',[OderController::class,'indexNew']);
     Route::get('/oder/on-going',[OderController::class,'indexOnGoing']);
     Route::get('/oder/past',[OderController::class,'indexPast']);
+    Route::get('/oder/return',[OderController::class,'indexReturn']);
     Route::get('/oder/detail/{id}',[OderController::class,'show']);
 
     Route::get('/oder/{id}/changeStatus',[OderController::class,'changeStatus']);

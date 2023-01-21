@@ -133,4 +133,47 @@ class SupportController extends Controller
     {
         //
     }
+
+    public function homeSearch(Request $request){
+        try {
+            $data = DB::table('products as p')
+            ->leftJoin('categories as c','c.id','=','p.categorie_id')
+            ->leftJoin('stores as s','s.id','=','p.store_id')
+            ->selectRaw('p.id as product_id,p.name as product_name,p.price as product_price,c.id as categorie_id,c.name as categorie_name,s.id as store_id,s.name as store_name,s.vendor_type_id as vendor_type_id');
+
+            if(isset($request->vendor_type_id) && $request->vendor_type_id != ''){
+                $data = $data->where('s.vendor_type_id',$request->vendor_type_id);
+            }
+
+            if(isset($request->store_id) && $request->store_id != ''){
+                $data = $data->where('s.id',$request->store_id);
+            }
+
+            $filter = $request->get('query','');
+            if(isset($request->query) && $request->query != ''){
+                $data = $data->where(function($query) use ($filter) {
+                    $query->where('p.name','LIKE',"%{$filter}%")
+                    ->orWhere('c.name','LIKE',"%{$filter}%")
+                    ->orWhere('s.name','LIKE',"%{$filter}%")
+                    ->orWhere('p.price','LIKE',"%{$filter}%");
+                });
+            }
+
+            $data = $data->get();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'search result',
+                'data' => $data,
+            ], 200);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+
 }

@@ -48,6 +48,16 @@ class OderController extends Controller
         return view('admin.oder.past',['data' => $oder]);
     }
 
+    public function indexReturn()
+    {
+        $oder = DB::table('oders as o')
+        ->leftJoin('users as u','o.user_id','=','u.id')
+        ->leftJoin('addresses as a','a.id','=','o.delivery_address')
+        ->selectRaw('o.*,u.name as user_name,a.name as address')
+        ->where('o.status',16)->get();
+        return view('admin.oder.return',['data' => $oder]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

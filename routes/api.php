@@ -53,7 +53,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/stores/like',[StoreLikeController::class,'addLike']);
 
     // Home
-
     Route::get('/home/store/like',[StoreLikeController::class,'homeLikeStore']);
     Route::get('/home/store/rating',[StoreLikeController::class,'homeRatingStore']);
 
@@ -63,6 +62,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // products
     Route::post('/products', [ProductsController::class, 'store']);
     Route::post('/product/categorie',[ProductCategorieController::class,'store']);
+    Route::get('/product/like',[StoreLikeController::class,'addLikeProduct']);
+    Route::get('/wishlist',[StoreLikeController::class,'getLikeProduct']);
 
     //cart
     Route::post('/cart',[CartController::class,'store']);
@@ -87,10 +88,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //Oder
     Route::post('/oder/create',[OderController::class,'store']);
     Route::get('/oder/getOder',[OderController::class,'getOder']);
+    Route::get('/oder/getCancleOder',[OderController::class,'getCancleOder']);
+    Route::get('/oder/getRefundOder',[OderController::class,'getRefundOder']);
+    Route::get('/oder/getReturnOder',[OderController::class,'getReturnOder']);
     Route::get('/oder/detail/{id}',[OderController::class,'oderDetail']);
     Route::post('/oder/cancel/{id}',[OderController::class,'oderCancel']);
+    Route::post('/oder/return/{id}',[OderController::class,'oderReturn']);
 
     // support
     Route::post('/support',[SupportController::class,'store']);
+
+    // search
+    Route::get('/search/home',[SupportController::class,'homeSearch']);
 
 });

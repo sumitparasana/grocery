@@ -9,6 +9,7 @@ use App\Models\OderProduct;
 use App\Models\OderProductCategorie;
 use App\Models\CartProduct;
 use App\Models\CartProductCategorie;
+use App\Models\Products;
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -126,6 +127,8 @@ class OderController extends Controller
                             }else{
                                 CartProduct::where('id',$p->id)->where('cart_id',$request->cart_id)->delete();
                             }
+
+                            Products::productSell($p->id);
                         }
                     }
                 }else{
@@ -207,7 +210,73 @@ class OderController extends Controller
         try {
             $oder = Oder::leftJoin('statuses as s','s.id','=','oders.status')
                 ->where('user_id',auth()->user()->id)
-                ->selectRaw('oders.*,s.name as status_name')
+                ->selectRaw('oders.*,DATE_FORMAT(oders.creation_date,"%d-%b-%Y %h:%i %p") as oder_date,s.name as status_name')
+                ->get();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'oder details',
+                'data' => $oder,
+            ], 200);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getCancleOder(){
+        try {
+            $oder = Oder::leftJoin('statuses as s','s.id','=','oders.status')
+                ->where('user_id',auth()->user()->id)
+                ->where('starus',9)
+                ->selectRaw('oders.*,DATE_FORMAT(oders.creation_date,"%d-%b-%Y %h:%i %p") as oder_date,s.name as status_name')
+                ->get();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'oder details',
+                'data' => $oder,
+            ], 200);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getRefundOder(){
+        try {
+            $oder = Oder::leftJoin('statuses as s','s.id','=','oders.status')
+                ->where('user_id',auth()->user()->id)
+                ->where('starus',11)
+                ->selectRaw('oders.*,DATE_FORMAT(oders.creation_date,"%d-%b-%Y %h:%i %p") as oder_date,s.name as status_name')
+                ->get();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'oder details',
+                'data' => $oder,
+            ], 200);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getReturnOder(){
+        try {
+            $oder = Oder::leftJoin('statuses as s','s.id','=','oders.status')
+                ->where('user_id',auth()->user()->id)
+                ->where('starus',16)
+                ->selectRaw('oders.*,DATE_FORMAT(oders.creation_date,"%d-%b-%Y %h:%i %p") as oder_date,s.name as status_name')
                 ->get();
 
             return response()->json([
@@ -229,14 +298,14 @@ class OderController extends Controller
             $oder = DB::table('oders as o')
             ->leftJoin('statuses as s','s.id','=','o.status')
             ->leftJoin('addresses as a','a.id','=','o.delivery_address')
-            ->selectRaw('o.*,s.name as oder_status_name,a.name as address_name,a.phone as address_phone,a.address as address,(o.amount - o.paid_amount) as skip_for_pay')
+            ->selectRaw('o.*,DATE_FORMAT(o.creation_date,"%d-%b-%Y %h:%i %p") as oder_date,s.name as oder_status_name,a.name as address_name,a.phone as address_phone,a.address as address,(o.amount - o.paid_amount) as skip_for_pay')
             ->where('o.id',$id)->first();
 
             if($oder){
                 $oder_product = DB::table('oder_products as op')
                 ->leftJoin('statuses as s','s.id','=','op.delivery_status')
                 ->leftJoin('products as p','p.id','=','op.product_id')
-                ->selectRaw('op.*,s.name as oder_product_status,p.name as product_name')
+                ->selectRaw('op.*,s.name as oder_product_status,p.name as product_name,p.image_path as product_image')
                 ->where('op.oder_id',$oder->id)->get();
 
                 $oder->oder_product = $oder_product;
@@ -265,6 +334,37 @@ class OderController extends Controller
             $oder = Oder::where('id',$id)->first();
             if($oder){
                 $oder->status = 9;
+                if($oder->save()){
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'oder details',
+                        'data' => $oder,
+                    ], 200);
+                }else{
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'oder not cancle',
+                    ], 401);
+                }
+            }else{
+                return response()->json([
+                    'status' => false,
+                    'message' => 'oder id not found',
+                ], 401);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function oderReturn(Request $request,$id){
+        try {
+            $oder = Oder::where('id',$id)->first();
+            if($oder){
+                $oder->status = 16;
                 if($oder->save()){
                     return response()->json([
                         'status' => true,
